@@ -1,0 +1,363 @@
+:root {
+  --bg: #04070f;
+  --bg-elev: #0a1022;
+  --panel: rgba(12, 18, 38, 0.72);
+  --line: rgba(130, 165, 255, 0.24);
+  --line-soft: rgba(130, 165, 255, 0.12);
+  --text: #e8f0ff;
+  --muted: #90a4cd;
+  --cyan: #35f6ff;
+  --blue: #4f8bff;
+  --green: #25d089;
+  --amber: #f6be2c;
+  --orange: #f2852e;
+  --red: #ff4a6d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font-family: "Sora", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(900px 540px at 10% -10%, rgba(66, 104, 255, 0.3) 0%, transparent 65%),
+    radial-gradient(800px 420px at 100% 10%, rgba(53, 246, 255, 0.15) 0%, transparent 65%),
+    linear-gradient(160deg, #02040a 0%, #060b1b 58%, #04070f 100%);
+}
+
+.mesh {
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(84px);
+}
+
+.mesh-a {
+  width: 420px;
+  height: 420px;
+  left: -140px;
+  top: -110px;
+  background: rgba(79, 139, 255, 0.36);
+}
+
+.mesh-b {
+  width: 340px;
+  height: 340px;
+  right: -110px;
+  bottom: -80px;
+  background: rgba(53, 246, 255, 0.22);
+}
+
+.page-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 18px 44px;
+}
+
+.hero {
+  margin-bottom: 20px;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: var(--cyan);
+  font-family: "Orbitron", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(28px, 4vw, 46px);
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  max-width: 760px;
+  margin: 10px 0 0;
+  color: #bfd0f3;
+  line-height: 1.6;
+}
+
+.status-bar {
+  margin-top: 12px;
+  display: inline-block;
+  background: rgba(53, 246, 255, 0.08);
+  border: 1px solid rgba(53, 246, 255, 0.4);
+  color: #b8fcff;
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 6px 12px;
+}
+
+.app-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 330px 1fr;
+}
+
+.panel {
+  backdrop-filter: blur(10px);
+  background: linear-gradient(175deg, rgba(15, 22, 47, 0.78), rgba(8, 13, 29, 0.78));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  padding: 18px;
+}
+
+.panel h2,
+.panel h3 {
+  margin-top: 0;
+  font-family: "Orbitron", sans-serif;
+}
+
+.panel-text {
+  margin-top: -2px;
+  color: var(--muted);
+}
+
+label {
+  display: block;
+  margin-bottom: 11px;
+  color: #c4d4f6;
+  font-size: 14px;
+}
+
+input,
+select {
+  width: 100%;
+  margin-top: 6px;
+  color: var(--text);
+  border: 1px solid var(--line-soft);
+  background: rgba(4, 9, 23, 0.85);
+  border-radius: 10px;
+  padding: 11px;
+  font: inherit;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: rgba(53, 246, 255, 0.58);
+  box-shadow: 0 0 0 3px rgba(53, 246, 255, 0.15);
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #1e6dff, #31a5ff);
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(30, 109, 255, 0.38);
+}
+
+.btn-muted {
+  background: #223155;
+  border-color: #2f4577;
+  color: #d8e5ff;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #12b575, #28d795);
+  color: #041b10;
+  box-shadow: 0 8px 22px rgba(37, 208, 137, 0.3);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.placeholder {
+  color: #bfd0f3;
+  border: 1px dashed rgba(130, 165, 255, 0.45);
+  border-radius: 12px;
+  background: rgba(17, 25, 50, 0.55);
+  padding: 22px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
+  color: #bdd0f8;
+  margin-bottom: 8px;
+}
+
+.progress-track {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(100, 132, 210, 0.26);
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #35f6ff 0%, #4f8bff 100%);
+  box-shadow: 0 0 18px rgba(53, 246, 255, 0.6);
+  transition: width 0.3s ease;
+}
+
+.question-text {
+  margin: 16px 0 14px;
+  line-height: 1.5;
+  color: #f4f8ff;
+}
+
+.options-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.option-card {
+  border: 1px solid var(--line-soft);
+  border-radius: 11px;
+  padding: 11px;
+  background: rgba(11, 17, 35, 0.9);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.option-card:hover {
+  border-color: rgba(79, 139, 255, 0.62);
+}
+
+.option-card input {
+  width: auto;
+  margin: 0;
+  accent-color: #35f6ff;
+}
+
+.question-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.report-panel {
+  margin-top: 16px;
+}
+
+.report-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.risk-badge {
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-weight: 700;
+  color: #041018;
+}
+
+.risk-low { background: var(--green); }
+.risk-mild { background: var(--amber); }
+.risk-moderate { background: var(--orange); }
+.risk-high { background: var(--red); color: #fff; }
+
+.report-summary {
+  margin: 12px 0 16px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(140px, 1fr));
+}
+
+.metric-card {
+  border: 1px solid var(--line-soft);
+  border-radius: 11px;
+  background: rgba(8, 13, 27, 0.8);
+  padding: 11px;
+}
+
+.metric-label {
+  margin: 0;
+  color: #9fb6e3;
+  font-size: 13px;
+}
+
+.metric-value {
+  margin: 8px 0 0;
+  font-size: 30px;
+  font-family: "Orbitron", sans-serif;
+}
+
+.category-score-item {
+  margin-bottom: 10px;
+}
+
+.category-score-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  color: #ccdbf7;
+}
+
+.category-track {
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(110, 139, 205, 0.22);
+  overflow: hidden;
+}
+
+.category-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #35f6ff, #4f8bff);
+}
+
+.recommendation-box {
+  margin-top: 16px;
+  border: 1px solid rgba(53, 246, 255, 0.35);
+  border-radius: 11px;
+  padding: 12px;
+  background: rgba(6, 24, 34, 0.6);
+}
+
+.error-text {
+  color: #ff8fa5;
+  margin-top: 8px;
+}
+
+.disclaimer {
+  margin-top: 18px;
+  font-size: 13px;
+  color: #9bb2dc;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 920px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-summary {
+    grid-template-columns: 1fr;
+  }
+}

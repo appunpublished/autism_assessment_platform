@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Child Autism Screening</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-a: #e7f3ff;
+      --bg-b: #fbeaf7;
+      --bg-c: #e9faef;
+      --ink: #334155;
+      --muted: #64748b;
+      --card: #ffffff;
+      --line: #dbeafe;
+      --primary: #60a5fa;
+      --primary-2: #22d3ee;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Nunito", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(170deg, var(--bg-a) 0%, var(--bg-b) 48%, var(--bg-c) 100%);
+      min-height: 100vh;
+    }
+
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 22px 16px 34px; }
+    .title { margin: 0; font-size: clamp(30px, 5vw, 52px); line-height: 1.1; font-weight: 800; }
+    .subtitle { margin-top: 10px; color: var(--muted); max-width: 760px; }
+
+    .status {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid #cfe6ff;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #2563eb;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22d3ee;
+      box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.7);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.6); }
+      100% { box-shadow: 0 0 0 12px rgba(34, 211, 238, 0); }
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.12);
+    }
+
+    .setup { margin-top: 18px; padding: 18px; }
+    .grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .full { grid-column: span 2; }
+    label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #475569; }
+    input, select {
+      width: 100%;
+      border: 2px solid #dbeafe;
+      border-radius: 14px;
+      padding: 12px;
+      font: inherit;
+      background: #f8fbff;
+      color: #334155;
+    }
+
+    input:focus, select:focus {
+      border-color: #7dd3fc;
+      outline: none;
+      background: #fff;
+    }
+
+    button { font: inherit; }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .18s ease transform;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+    .btn-primary { background: linear-gradient(90deg, var(--primary), var(--primary-2)); color: #fff; }
+    .btn-muted { background: #e2e8f0; color: #475569; }
+    .btn-success { background: linear-gradient(90deg, #22c55e, #16a34a); color: #fff; }
+
+    .err { min-height: 18px; margin-top: 8px; color: #dc2626; font-weight: 700; font-size: 14px; }
+
+    .q-layout {
+      margin-top: 14px;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 320px 1fr;
+    }
+
+    .sections, .question-box { padding: 14px; }
+    .sec-title { margin: 0 0 8px; font-size: 16px; color: #2563eb; font-weight: 800; }
+
+    .progress {
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      background: #f8fbff;
+      padding: 9px;
+      margin-bottom: 10px;
+    }
+
+    .track { height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+    .fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #22d3ee, #3b82f6);
+      transition: width .25s ease;
+    }
+
+    .section-list { display: grid; gap: 8px; max-height: 490px; overflow: auto; padding-right: 3px; }
+    .sec-item {
+      width: 100%;
+      text-align: left;
+      border: 2px solid #dbeafe;
+      background: #f8fbff;
+      border-radius: 12px;
+      padding: 9px 10px;
+      cursor: pointer;
+    }
+
+    .sec-item.active { border-color: #7dd3fc; background: #f0f9ff; }
+    .sec-item.done { border-color: #86efac; background: #f0fdf4; }
+    .sec-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 3px; }
+    .chip {
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .sec-item.done .chip { background: #dcfce7; color: #166534; }
+    .q-title { margin: 2px 0 6px; font-size: 24px; line-height: 1.3; font-weight: 800; }
+    .q-meta { color: #64748b; margin-bottom: 8px; font-weight: 700; }
+
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .option {
+      border: 2px solid #dbeafe;
+      border-radius: 14px;
+      padding: 12px;
+      background: #f8fbff;
+      cursor: pointer;
+      text-align: left;
+      transition: .15s ease;
+    }
+
+    .option:hover { border-color: #7dd3fc; }
+    .option.selected { border-color: #60a5fa; background: #eff6ff; box-shadow: inset 0 0 0 1px #60a5fa; }
+    .option strong { font-size: 16px; display: block; margin-bottom: 3px; }
+    .option small { color: #64748b; }
+
+    .actions { margin-top: 12px; display: flex; gap: 8px; justify-content: space-between; flex-wrap: wrap; }
+
+    .report { margin-top: 14px; padding: 16px; }
+    .report-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .risk {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #fff;
+      background: #64748b;
+    }
+
+    .risk.low { background: var(--ok); }
+    .risk.mild { background: var(--warn); }
+    .risk.moderate { background: #f97316; }
+    .risk.high { background: var(--danger); }
+
+    .cards { display: grid; gap: 8px; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 10px; }
+    .card { border: 1px solid #dbeafe; border-radius: 12px; padding: 10px; background: #f8fbff; }
+    .card p { margin: 0; color: #64748b; font-size: 13px; }
+    .card strong { font-size: 24px; font-weight: 800; }
+
+    .cat-row { margin-bottom: 8px; }
+    .cat-meta { display: flex; justify-content: space-between; margin-bottom: 4px; font-weight: 700; color: #475569; }
+    .note {
+      margin-top: 9px;
+      border-top: 1px solid #dbeafe;
+      padding-top: 8px;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+      .full { grid-column: span 1; }
+      .q-layout { grid-template-columns: 1fr; }
+      .option-grid { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1 class="title">Child Autism Screening</h1>
+    <p class="subtitle">
+      Section-based questionnaire with age-aware scoring. Select answers and the form automatically moves to the next question.
+    </p>
+    <div class="status"><span class="dot"></span><span id="statusText">Ready</span></div>
+
+    <section class="panel setup">
+      <div class="grid">
+        <div>
+          <label for="assessmentName">Assessment Name</label>
+          <input id="assessmentName" type="text" value="Child Screening">
+        </div>
+        <div>
+          <label for="parentName">Parent/Caregiver Name</label>
+          <input id="parentName" type="text" placeholder="Name">
+        </div>
+        <div>
+          <label for="role">Role</label>
+          <select id="role">
+            <option value="Parent">Parent</option>
+            <option value="Guardian">Guardian</option>
+            <option value="Clinician">Clinician</option>
+          </select>
+        </div>
+        <div>
+          <label for="email">Email (optional)</label>
+          <input id="email" type="email" placeholder="name@example.com">
+        </div>
+        <div class="full">
+          <label for="ageMonths">Child Age (months) - required for age-based scoring</label>
+          <input id="ageMonths" type="number" min="12" max="216" value="48">
+        </div>
+        <div class="full">
+          <button id="startBtn" type="button" class="btn btn-primary" style="width:100%;">Start Questionnaire</button>
+          <div id="setupError" class="err"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="qPanel" class="q-layout hidden">
+      <aside class="panel sections">
+        <h2 class="sec-title">Sections</h2>
+        <div class="progress">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:13px;color:#64748b;font-weight:700;">
+            <span>Overall Progress</span>
+            <span id="overallText">0 / 0</span>
+          </div>
+          <div class="track"><div id="overallFill" class="fill"></div></div>
+        </div>
+        <div id="sectionList" class="section-list"></div>
+      </aside>
+
+      <section class="panel question-box">
+        <h3 id="sectionName" class="sec-title">Section</h3>
+        <div id="sectionMeta" class="q-meta">0 / 0 answered</div>
+        <div class="track" style="margin-bottom:10px;"><div id="sectionFill" class="fill"></div></div>
+
+        <p id="questionTitle" class="q-title">Question text</p>
+        <div id="optionGrid" class="option-grid"></div>
+        <div id="questionError" class="err"></div>
+
+        <div class="actions">
+          <button id="prevQBtn" type="button" class="btn btn-muted">Previous Question</button>
+          <button id="nextSectionBtn" type="button" class="btn btn-muted">Next Section</button>
+          <button id="submitBtn" type="button" class="btn btn-success">Submit Assessment</button>
+        </div>
+      </section>
+    </section>
+
+    <section id="reportPanel" class="panel report hidden">
+      <div class="report-head">
+        <h2 style="margin:0;font-size:18px;">Risk Report</h2>
+        <span id="riskBadge" class="risk">Risk</span>
+      </div>
+      <div class="cards">
+        <div class="card"><p>Assessment ID</p><strong id="assessmentId">-</strong></div>
+        <div class="card"><p>Total Score</p><strong id="score">-</strong></div>
+        <div class="card"><p>Age Band</p><strong id="ageBand">-</strong></div>
+      </div>
+      <div id="categoryScores"></div>
+      <div style="margin-top:10px;padding:10px;border:1px solid #dbeafe;border-radius:12px;background:#f8fbff;">
+        <strong style="display:block;margin-bottom:4px;">Recommendation</strong>
+        <span id="recommendationText"></span>
+      </div>
+      <p class="note">This tool is a screening aid only and not a medical diagnosis.</p>
+    </section>
+  </main>
+
+  <script>
+    const appState = {
+      intake: {},
+      sections: [],
+      flatQuestions: [],
+      responses: {},
+      activeSectionIndex: 0,
+      activeQuestionIndex: 0,
+    };
+    const ANSWER_CACHE_KEY = "autism_ui_answers_v2";
+
+    const els = {
+      statusText: document.getElementById("statusText"),
+      assessmentName: document.getElementById("assessmentName"),
+      parentName: document.getElementById("parentName"),
+      role: document.getElementById("role"),
+      email: document.getElementById("email"),
+      ageMonths: document.getElementById("ageMonths"),
+      startBtn: document.getElementById("startBtn"),
+      setupError: document.getElementById("setupError"),
+      qPanel: document.getElementById("qPanel"),
+      sectionList: document.getElementById("sectionList"),
+      overallText: document.getElementById("overallText"),
+      overallFill: document.getElementById("overallFill"),
+      sectionName: document.getElementById("sectionName"),
+      sectionMeta: document.getElementById("sectionMeta"),
+      sectionFill: document.getElementById("sectionFill"),
+      questionTitle: document.getElementById("questionTitle"),
+      optionGrid: document.getElementById("optionGrid"),
+      questionError: document.getElementById("questionError"),
+      prevQBtn: document.getElementById("prevQBtn"),
+      nextSectionBtn: document.getElementById("nextSectionBtn"),
+      submitBtn: document.getElementById("submitBtn"),
+      reportPanel: document.getElementById("reportPanel"),
+      riskBadge: document.getElementById("riskBadge"),
+      assessmentId: document.getElementById("assessmentId"),
+      score: document.getElementById("score"),
+      ageBand: document.getElementById("ageBand"),
+      categoryScores: document.getElementById("categoryScores"),
+      recommendationText: document.getElementById("recommendationText"),
+    };
+
+    function setStatus(text) {
+      els.statusText.textContent = text;
+    }
+
+    function setError(el, text) {
+      el.textContent = text || "";
+    }
+
+    function hasAnswer(questionId) {
+      return Object.prototype.hasOwnProperty.call(appState.responses, String(questionId))
+        && appState.responses[questionId] !== null
+        && appState.responses[questionId] !== undefined;
+    }
+
+    function persistResponses() {
+      sessionStorage.setItem(ANSWER_CACHE_KEY, JSON.stringify(appState.responses));
+    }
+
+    function restoreResponses() {
+      const raw = sessionStorage.getItem(ANSWER_CACHE_KEY);
+      if (!raw) return;
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          appState.responses = parsed;
+        }
+      } catch (_err) {
+        appState.responses = {};
+      }
+    }
+
+    function intakePayload() {
+      return {
+        name: (els.assessmentName.value || "").trim() || "Child Screening",
+        respondent_name: (els.parentName.value || "").trim(),
+        respondent_role: (els.role.value || "").trim(),
+        respondent_email: (els.email.value || "").trim(),
+        child_age_months: Number(els.ageMonths.value || 0),
+      };
+    }
+
+    function countAnswered(section) {
+      return section.questions.reduce((acc, q) => acc + (hasAnswer(q.id) ? 1 : 0), 0);
+    }
+
+    function totalAnswered() {
+      return appState.flatQuestions.reduce((acc, q) => acc + (hasAnswer(q.id) ? 1 : 0), 0);
+    }
+
+    function renderSectionList() {
+      els.sectionList.innerHTML = "";
+      appState.sections.forEach((sec, idx) => {
+        const answered = countAnswered(sec);
+        const total = sec.questions.length;
+        const done = answered === total;
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `sec-item ${idx === appState.activeSectionIndex ? "active" : ""} ${done ? "done" : ""}`;
+        btn.innerHTML = `
+          <div class="sec-head">
+            <strong>${sec.section}</strong>
+            <span class="chip">${done ? "Done" : "Open"}</span>
+          </div>
+          <div style="font-size:13px;color:#64748b;">${answered} / ${total} answered</div>
+        `;
+        btn.addEventListener("click", () => {
+          appState.activeSectionIndex = idx;
+          const firstPending = sec.questions.findIndex((q) => !hasAnswer(q.id));
+          appState.activeQuestionIndex = firstPending >= 0 ? firstPending : 0;
+          renderQuestionArea();
+          renderSectionList();
+        });
+        els.sectionList.appendChild(btn);
+      });
+    }
+
+    function renderProgress() {
+      const answered = totalAnswered();
+      const total = appState.flatQuestions.length;
+      const pct = total ? Math.round((answered / total) * 100) : 0;
+      els.overallText.textContent = `${answered} / ${total}`;
+      els.overallFill.style.width = `${pct}%`;
+    }
+
+    function renderQuestionArea() {
+      setError(els.questionError, "");
+      const section = appState.sections[appState.activeSectionIndex];
+      if (!section) return;
+      const answered = countAnswered(section);
+      const total = section.questions.length;
+
+      if (appState.activeQuestionIndex >= total) {
+        appState.activeQuestionIndex = total - 1;
+      }
+      if (appState.activeQuestionIndex < 0) {
+        appState.activeQuestionIndex = 0;
+      }
+
+      const question = section.questions[appState.activeQuestionIndex];
+      els.sectionName.textContent = section.section;
+      els.sectionMeta.textContent = `${answered} / ${total} answered`;
+      els.sectionFill.style.width = `${Math.round((answered / total) * 100)}%`;
+      els.questionTitle.textContent = `${appState.activeQuestionIndex + 1}. ${question.text}`;
+
+      els.prevQBtn.disabled = appState.activeQuestionIndex === 0;
+      els.nextSectionBtn.disabled = appState.activeSectionIndex === appState.sections.length - 1;
+
+      els.optionGrid.innerHTML = "";
+      question.options.forEach((opt) => {
+        const selected = appState.responses[question.id] === opt.id;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `option ${selected ? "selected" : ""}`;
+        btn.innerHTML = `<strong>${opt.text}</strong><small>Score: ${opt.score}</small>`;
+        btn.addEventListener("click", () => {
+          appState.responses[question.id] = opt.id;
+          persistResponses();
+          autoAdvanceWithinSection();
+        });
+        els.optionGrid.appendChild(btn);
+      });
+
+      renderProgress();
+      renderSectionList();
+    }
+
+    function autoAdvanceWithinSection() {
+      const section = appState.sections[appState.activeSectionIndex];
+      const nextPending = section.questions.findIndex((q, idx) =>
+        idx > appState.activeQuestionIndex && !hasAnswer(q.id)
+      );
+
+      if (nextPending >= 0) {
+        appState.activeQuestionIndex = nextPending;
+      } else {
+        const nextSectionIndex = appState.sections.findIndex(
+          (sec, idx) => idx > appState.activeSectionIndex && countAnswered(sec) < sec.questions.length
+        );
+        if (nextSectionIndex >= 0) {
+          appState.activeSectionIndex = nextSectionIndex;
+          const firstPending = appState.sections[nextSectionIndex].questions.findIndex(
+            (q) => !hasAnswer(q.id)
+          );
+          appState.activeQuestionIndex = firstPending >= 0 ? firstPending : 0;
+        }
+      }
+      renderQuestionArea();
+    }
+
+    async function startQuestionnaire() {
+      setError(els.setupError, "");
+      const payload = intakePayload();
+      if (!payload.child_age_months || payload.child_age_months < 12) {
+        setError(els.setupError, "Please provide age in months (minimum 12).");
+        return;
+      }
+
+      setStatus("Loading Questions");
+      els.startBtn.disabled = true;
+      try {
+        const response = await fetch(`/api/questions/sections/?child_age_months=${payload.child_age_months}`);
+        if (!response.ok) throw new Error(`Unable to load questions (${response.status})`);
+        const sections = await response.json();
+        if (!Array.isArray(sections) || sections.length === 0) {
+          throw new Error("No questions found for this age.");
+        }
+        const firstQuestion = sections[0]?.questions?.[0];
+        const firstOption = firstQuestion?.options?.[0];
+        if (!firstQuestion || firstQuestion.id === undefined || !firstOption || firstOption.id === undefined) {
+          throw new Error("Question payload missing IDs. Please refresh and retry.");
+        }
+
+        appState.intake = payload;
+        appState.sections = sections;
+        appState.flatQuestions = sections.flatMap((sec) => sec.questions);
+        restoreResponses();
+        appState.activeSectionIndex = 0;
+        appState.activeQuestionIndex = 0;
+
+        els.qPanel.classList.remove("hidden");
+        els.reportPanel.classList.add("hidden");
+        renderQuestionArea();
+        setStatus(`Loaded ${appState.flatQuestions.length} Questions`);
+      } catch (error) {
+        setError(els.setupError, error.message || "Unable to start questionnaire.");
+        setStatus("Load Failed");
+      } finally {
+        els.startBtn.disabled = false;
+      }
+    }
+
+    function findPreviousAnsweredQuestionIndex(section, currentIndex) {
+      for (let idx = currentIndex - 1; idx >= 0; idx -= 1) {
+        if (hasAnswer(section.questions[idx].id)) {
+          return idx;
+        }
+      }
+      return Math.max(0, currentIndex - 1);
+    }
+
+    function moveToNextSection() {
+      if (appState.activeSectionIndex < appState.sections.length - 1) {
+        appState.activeSectionIndex += 1;
+        const sec = appState.sections[appState.activeSectionIndex];
+        const pending = sec.questions.findIndex((q) => !hasAnswer(q.id));
+        appState.activeQuestionIndex = pending >= 0 ? pending : 0;
+        renderQuestionArea();
+      }
+    }
+
+    function riskClass(level) {
+      const l = (level || "").toLowerCase();
+      if (l === "low") return "low";
+      if (l === "mild") return "mild";
+      if (l === "moderate") return "moderate";
+      if (l === "high") return "high";
+      return "";
+    }
+
+    function renderReport(report) {
+      els.assessmentId.textContent = report.assessment_id;
+      els.score.textContent = report.score;
+      els.ageBand.textContent = report.age_band || "Unspecified";
+      els.riskBadge.textContent = report.risk_level;
+      els.riskBadge.className = `risk ${riskClass(report.risk_level)}`;
+      els.recommendationText.textContent = report.recommendation;
+
+      const entries = Object.entries(report.category_scores || {});
+      const max = Math.max(1, ...entries.map(([, s]) => s));
+      els.categoryScores.innerHTML = "";
+      entries.forEach(([name, score]) => {
+        const row = document.createElement("div");
+        row.className = "cat-row";
+        const pct = Math.round((score / max) * 100);
+        row.innerHTML = `
+          <div class="cat-meta"><span>${name}</span><span>${score}</span></div>
+          <div class="track"><div class="fill" style="width:${pct}%"></div></div>
+        `;
+        els.categoryScores.appendChild(row);
+      });
+      els.reportPanel.classList.remove("hidden");
+      els.reportPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    async function submitAssessment() {
+      setError(els.questionError, "");
+      const missing = appState.flatQuestions.filter((q) => !hasAnswer(q.id));
+      if (missing.length) {
+        setError(els.questionError, `Please answer all questions. Missing: ${missing.length}`);
+        return;
+      }
+
+      const payload = {
+        ...appState.intake,
+        metadata: { source: "section_auto_next_ui" },
+        responses: appState.flatQuestions.map((q) => ({
+          question_id: q.id,
+          option_id: appState.responses[q.id],
+        })),
+      };
+
+      els.submitBtn.disabled = true;
+      els.submitBtn.textContent = "Submitting...";
+      setStatus("Submitting");
+      try {
+        const response = await fetch("/api/submit-assessment/", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const report = await response.json();
+        if (!response.ok) throw new Error("Submit failed");
+        renderReport(report);
+        setStatus(`Submitted #${report.assessment_id}`);
+        sessionStorage.removeItem(ANSWER_CACHE_KEY);
+      } catch (error) {
+        setError(els.questionError, error.message || "Unable to submit assessment.");
+        setStatus("Submission Failed");
+      } finally {
+        els.submitBtn.disabled = false;
+        els.submitBtn.textContent = "Submit Assessment";
+      }
+    }
+
+    els.startBtn.addEventListener("click", startQuestionnaire);
+    els.prevQBtn.addEventListener("click", () => {
+      const sec = appState.sections[appState.activeSectionIndex];
+      appState.activeQuestionIndex = findPreviousAnsweredQuestionIndex(sec, appState.activeQuestionIndex);
+      renderQuestionArea();
+    });
+    els.nextSectionBtn.addEventListener("click", moveToNextSection);
+    els.submitBtn.addEventListener("click", submitAssessment);
+  </script>
+</body>
+</html>
