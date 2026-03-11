@@ -8,7 +8,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-secret-key")
 DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = [
-   'nimkermukul.pythonananywhere.com', 'localhost', '127.0.0.1'
+   'nimkermukul.pythonanywhere.com', 'localhost', '127.0.0.1'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -41,8 +41,16 @@ ROOT_URLCONF = 'autism_platform.urls'
 
 TEMPLATES = [
     {
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': False,
+        'OPTIONS': {
+            'environment': 'jinja2.Environment',
+        },
+    },
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {'context_processors': [
             'django.template.context_processors.debug',
@@ -70,5 +78,6 @@ TIME_ZONE = 'UTC'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

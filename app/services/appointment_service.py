@@ -1,6 +1,5 @@
 from datetime import date
 
-from fastapi import HTTPException
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
@@ -20,6 +19,13 @@ DEFAULT_SLOTS = [
     "15:00-15:30",
     "15:30-16:00",
 ]
+
+
+class SlotAvailabilityError(Exception):
+    def __init__(self, detail: str, status_code: int = 409):
+        super().__init__(detail)
+        self.detail = detail
+        self.status_code = status_code
 
 
 def is_doctor_on_leave(db: Session, doctor_id: int, appointment_date: date) -> bool:
@@ -56,7 +62,7 @@ def get_available_slots(db: Session, doctor_id: int, appointment_date: date) -> 
 
 def ensure_slot_available(db: Session, doctor_id: int, appointment_date: date, time_slot: str) -> None:
     if is_doctor_on_leave(db, doctor_id, appointment_date):
-        raise HTTPException(status_code=409, detail="Doctor is out of office on selected date")
+        raise SlotAvailabilityError("Doctor is out of office on selected date")
 
     conflict = (
         db.query(Appointment)
@@ -71,4 +77,4 @@ def ensure_slot_available(db: Session, doctor_id: int, appointment_date: date, t
         .first()
     )
     if conflict:
-        raise HTTPException(status_code=409, detail="Time slot is already booked")
+        raise SlotAvailabilityError("Time slot is already booked")

@@ -30,6 +30,18 @@ class ScreeningGUIView(TemplateView):
     template_name = "assessment/gui.html"
 
 
+class LandingView(TemplateView):
+    """Public landing page for the hosted Django site."""
+
+    template_name = "assessment/landing.html"
+
+
+class ParentPortalView(TemplateView):
+    """Simple parent portal entry page."""
+
+    template_name = "assessment/parent_portal.html"
+
+
 class QuestionListAPIView(APIView):
     """Returns all active questions with options and scores."""
     authentication_classes = []
