@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+<h3 class="mb-3">Appointment Booking</h3>
+<form id="bookingForm" class="row g-3">
+  <div class="col-md-4">
+    <label class="form-label">Clinic</label>
+    <select id="clinicId" class="form-select" required></select>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Doctor</label>
+    <select id="doctorId" class="form-select" required></select>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Patient</label>
+    <select id="patientId" class="form-select" required></select>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Assessment</label>
+    <select id="assessmentId" class="form-select" required>
+      <option value="">Select assessment</option>
+    </select>
+  </div>
+  <div class="col-md-4"><label class="form-label">Risk Level</label><input id="selectedRiskLevel" class="form-control" readonly></div>
+  <div class="col-md-4"><label class="form-label">Appointment Priority</label><input id="appointmentPriority" class="form-control" readonly></div>
+  <div class="col-md-4"><label class="form-label">Date</label><input id="appointmentDate" class="form-control" type="date" required></div>
+  <div class="col-md-4">
+    <label class="form-label">Available Slot</label>
+    <select id="timeSlot" class="form-select" required></select>
+  </div>
+  <div class="col-12 d-flex gap-2">
+    <button id="loadSlots" class="btn btn-outline-primary" type="button">Load Slots</button>
+    <button class="btn btn-primary" type="submit">Confirm Booking</button>
+  </div>
+</form>
+<small id="bookingMessage" class="text-muted d-block mt-2"></small>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/appointment.js"></script>
+{% endblock %}

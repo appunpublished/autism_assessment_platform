@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Doctor Dashboard{% endblock %}
+{% block content %}
+<h3>Doctor Dashboard - {{ today }}</h3>
+<div class="mb-3 d-flex gap-2">
+  <a class="btn btn-outline-primary btn-sm" href="/consultations/doctor/calendar">Calendar View</a>
+  <a class="btn btn-outline-secondary btn-sm" href="/consultations/doctor/appointments">All Appointments</a>
+</div>
+<table class="table table-striped">
+  <thead><tr><th>Appointment</th><th>Time</th><th>Child</th><th>Risk</th><th>Status</th><th>Consultation / Prescription</th></tr></thead>
+  <tbody>
+    {% for row in appointments %}
+    <tr>
+      <td>{{ row[0].id }}</td>
+      <td>{{ row[0].time_slot }}</td>
+      <td>{{ row[1].child_name }}</td>
+      <td>{% if row[2] %}{{ row[2].risk_level }}{% else %}N/A{% endif %}</td>
+      <td>{{ row[0].status }}</td>
+      <td><a class="btn btn-sm btn-primary" href="/consultations/doctor/appointment/{{ row[0].id }}">Open</a></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6">No appointments today</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

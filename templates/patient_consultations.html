@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My Consultations{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="mb-0">My Child Consultations & Prescriptions</h3>
+  <a class="btn btn-primary" href="/assessment/page">Start Assessment</a>
+</div>
+{% for row in rows %}
+<div class="card mb-3">
+  <div class="card-body">
+    <h5>Consultation #{{ row[0].id }}</h5>
+    <p><strong>Date:</strong> {{ row[1].appointment_date }} | <strong>Slot:</strong> {{ row[1].time_slot }}</p>
+    {% if row[2] %}
+    <p><strong>Assessment:</strong> Score {{ row[2].score }} ({{ row[2].risk_level }})</p>
+    {% endif %}
+    <p><strong>Diagnosis:</strong> {{ row[0].diagnosis }}</p>
+    <p><strong>Doctor Notes:</strong> {{ row[0].notes }}</p>
+    <p><strong>Prescription / Recommendation:</strong> {{ row[0].recommendation }}</p>
+    <a class="btn btn-outline-primary btn-sm" href="/consultations/{{ row[0].id }}">View JSON</a>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-info">No consultations yet.</div>
+{% endfor %}
+{% endblock %}

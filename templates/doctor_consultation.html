@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Consultation & Prescription{% endblock %}
+{% block content %}
+<h3>Consultation & Prescription</h3>
+<div class="row g-3 mb-3">
+  <div class="col-md-4"><div class="card"><div class="card-body"><strong>Appointment ID:</strong> {{ appointment.id }}<br><strong>Date:</strong> {{ appointment.appointment_date }}<br><strong>Slot:</strong> {{ appointment.time_slot }}</div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><strong>Patient:</strong> {{ patient.child_name if patient else '-' }}<br><strong>Parent:</strong> {{ patient.parent_name if patient else '-' }}</div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><strong>Assessment:</strong> {% if assessment %}#{{ assessment.id }}{% else %}-{% endif %}<br><strong>Risk:</strong> {% if assessment %}{{ assessment.risk_level }}{% else %}-{% endif %}<br><strong>Score:</strong> {% if assessment %}{{ assessment.score }}{% else %}-{% endif %}</div></div></div>
+</div>
+
+{% if assessment %}
+<div class="card mb-3">
+  <div class="card-body">
+    <h5>Assessment Answers</h5>
+    <button class="btn btn-outline-primary btn-sm mb-2" id="loadAssessmentAnswers" data-assessment-id="{{ assessment.id }}">Load Answers</button>
+    <div id="assessmentAnswers"></div>
+  </div>
+</div>
+{% endif %}
+
+<div class="card">
+  <div class="card-body">
+    <h5>Doctor Notes / Diagnosis / Prescription</h5>
+    <form id="doctorConsultationForm" class="row g-3">
+      <input type="hidden" id="appointmentId" value="{{ appointment.id }}">
+      <input type="hidden" id="doctorId" value="{{ appointment.doctor_id }}">
+      <div class="col-md-12"><label class="form-label">Diagnosis</label><input id="diagnosis" class="form-control" value="{{ consultation.diagnosis if consultation else '' }}" required></div>
+      <div class="col-md-12"><label class="form-label">Clinical Notes</label><textarea id="notes" class="form-control" rows="4" required>{{ consultation.notes if consultation else '' }}</textarea></div>
+      <div class="col-md-12"><label class="form-label">Prescription / Recommendation</label><textarea id="recommendation" class="form-control" rows="4" required>{{ consultation.recommendation if consultation else '' }}</textarea></div>
+      <div class="col-12 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Save Consultation</button>
+        {% if consultation %}
+        <button class="btn btn-outline-secondary" type="button" id="generateReportBtn" data-consultation-id="{{ consultation.id }}">Generate PDF Report</button>
+        {% endif %}
+      </div>
+    </form>
+    <small id="consultationMessage" class="text-muted d-block mt-2"></small>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/doctor_consultation.js"></script>
+{% endblock %}

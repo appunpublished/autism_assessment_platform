@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Manage Appointments{% endblock %}
+{% block content %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h5>Book Appointment For Patient</h5>
+    <form id="adminBookingForm" class="row g-2">
+      <div class="col-md-3"><select id="adminClinicId" class="form-select" required></select></div>
+      <div class="col-md-3"><select id="adminDoctorId" class="form-select" required></select></div>
+      <div class="col-md-3"><select id="adminPatientId" class="form-select" required></select></div>
+      <div class="col-md-3"><select id="adminAssessmentId" class="form-select" required><option value="">Select assessment</option></select></div>
+      <div class="col-md-4"><input id="adminAppointmentDate" class="form-control" type="date" required></div>
+      <div class="col-md-4"><select id="adminTimeSlot" class="form-select" required></select></div>
+      <div class="col-md-4 d-flex gap-2">
+        <button id="adminLoadSlots" class="btn btn-outline-primary" type="button">Load Slots</button>
+        <button class="btn btn-primary" type="submit">Book</button>
+      </div>
+    </form>
+    <small id="adminBookingMessage" class="text-muted"></small>
+  </div>
+</div>
+
+<h3>Appointments</h3>
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Doctor ID</th><th>Patient ID</th><th>Date</th><th>Slot</th><th>Status</th></tr></thead>
+  <tbody>
+    {% for appt in appointments %}
+      <tr><td>{{ appt.id }}</td><td>{{ appt.doctor_id }}</td><td>{{ appt.patient_id }}</td><td>{{ appt.appointment_date }}</td><td>{{ appt.time_slot }}</td><td>{{ appt.status }}</td></tr>
+    {% else %}
+      <tr><td colspan="6">No appointments found</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/admin_appointments.js"></script>
+{% endblock %}

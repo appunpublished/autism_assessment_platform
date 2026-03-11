@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Child Autism Screening{% endblock %}
+{% block content %}
+<section class="p-5 mb-4 bg-light rounded-3">
+  <div class="container-fluid py-3">
+    <h1 class="display-6">Early Autism Screening and Specialist Booking</h1>
+    <p class="lead">Screen your child, get risk insights, and book expert consultation in one workflow.</p>
+    <a href="/assessment/page" class="btn btn-primary btn-lg">Start Screening</a>
+  </div>
+</section>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="card h-100"><div class="card-body"><h5>Autism Screening CTA</h5><p>Dynamic questionnaire with automated scoring.</p></div></div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100"><div class="card-body"><h5>How It Works</h5><p>Answer questions, review score, and schedule specialist appointment.</p></div></div>
+  </div>
+  <div class="col-md-4">
+    <div class="card h-100"><div class="card-body"><h5>Book Consultation</h5><p>Choose doctor and available slot without double booking.</p><a href="/appointments/booking-page" class="btn btn-outline-primary btn-sm">Book now</a></div></div>
+  </div>
+</div>
+{% endblock %}

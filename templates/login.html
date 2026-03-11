@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="mb-3">JWT Login</h4>
+        <form id="loginForm">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input id="email" type="email" class="form-control" placeholder="admin@clinic.com" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input id="password" type="password" class="form-control" placeholder="Admin@123" required>
+          </div>
+          <button class="btn btn-primary w-100" type="submit">Login</button>
+        </form>
+        <small id="loginMessage" class="text-muted d-block mt-2"></small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+function formatApiError(data) {
+  if (!data) return 'Request failed';
+  if (typeof data.detail === 'string') return data.detail;
+  if (Array.isArray(data.detail)) {
+    return data.detail
+      .map((item) => {
+        const field = Array.isArray(item.loc) ? item.loc[item.loc.length - 1] : 'field';
+        return `${field}: ${item.msg}`;
+      })
+      .join(' | ');
+  }
+  return 'Invalid input. Check email/password format.';
+}
+
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  const res = await fetch('/auth/login', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      email,
+      password,
+    })
+  });
+  const data = await res.json();
+  if (res.ok) {
+    localStorage.setItem('token', data.access_token);
+    localStorage.setItem('role', data.role);
+    document.getElementById('loginMessage').textContent = 'Login successful. Redirecting...';
+    const redirectMap = {
+      admin: '/admin/dashboard',
+      doctor: '/consultations/doctor/dashboard',
+      parent: '/appointments/booking-page',
+    };
+    window.location.href = redirectMap[data.role] || '/';
+  } else {
+    document.getElementById('loginMessage').textContent = formatApiError(data);
+  }
+});
+</script>
+{% endblock %}

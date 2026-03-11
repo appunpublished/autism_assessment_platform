@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Manage Patients{% endblock %}
+{% block content %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h5>Add Patient</h5>
+    <form id="addPatientForm" class="row g-2">
+      <div class="col-md-4"><input id="patientParentName" class="form-control" placeholder="Parent name" required></div>
+      <div class="col-md-4"><input id="patientChildName" class="form-control" placeholder="Child name" required></div>
+      <div class="col-md-4"><input id="patientChildAge" class="form-control" type="number" min="1" max="18" placeholder="Child age" required></div>
+      <div class="col-md-4"><input id="patientEmail" class="form-control" type="email" placeholder="parent@clinic.com" required></div>
+      <div class="col-md-4"><input id="patientPhone" class="form-control" placeholder="Phone" required></div>
+      <div class="col-md-4"><input id="patientPassword" class="form-control" type="password" placeholder="Parent password (optional)"></div>
+      <div class="col-md-4"><input id="patientClinicId" class="form-control" type="number" value="1" min="1" required></div>
+      <div class="col-12"><button class="btn btn-primary" type="submit">Add Patient</button></div>
+    </form>
+  </div>
+</div>
+
+<h3>Patients</h3>
+<table class="table table-striped">
+  <thead><tr><th>Child</th><th>Parent</th><th>Age</th><th>Email</th></tr></thead>
+  <tbody>
+    {% for patient in patients %}
+      <tr><td>{{ patient.child_name }}</td><td>{{ patient.parent_name }}</td><td>{{ patient.child_age }}</td><td>{{ patient.email }}</td></tr>
+    {% else %}
+      <tr><td colspan="4">No patients found</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<small id="patientAdminMessage" class="text-muted"></small>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/admin_patients.js"></script>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Doctor Appointments{% endblock %}
+{% block content %}
+<h3>All Appointments</h3>
+<table class="table table-bordered">
+  <thead><tr><th>ID</th><th>Date</th><th>Slot</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    {% for appt in appointments %}
+      <tr><td>{{ appt.id }}</td><td>{{ appt.appointment_date }}</td><td>{{ appt.time_slot }}</td><td>{{ appt.status }}</td><td><a class="btn btn-sm btn-primary" href="/consultations/doctor/appointment/{{ appt.id }}">Open</a></td></tr>
+    {% else %}
+      <tr><td colspan="5">No appointments</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

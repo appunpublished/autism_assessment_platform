@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Assessment Result{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h4>Screening Result</h4>
+    <p><strong>Score:</strong> {{ assessment.score }}</p>
+    <p><strong>Risk Level:</strong> <span class="badge text-bg-warning">{{ assessment.risk_level }}</span></p>
+    <p><strong>Recommendation:</strong> {{ recommendation }}</p>
+    <div id="resultSectionScores" class="mb-3"></div>
+    <a href="/appointments/booking-page" class="btn btn-primary">Book Consultation</a>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  const assessmentId = {{ assessment.id }};
+  const key = `assessment_section_scores_${assessmentId}`;
+  const target = document.getElementById('resultSectionScores');
+  const raw = sessionStorage.getItem(key);
+  if (raw) {
+    try {
+      const data = JSON.parse(raw);
+      const rows = Object.entries(data).map(([section, score]) => `<li><strong>${section}</strong>: ${score}</li>`).join('');
+      target.innerHTML = `<h6>Section-wise Scores</h6><ul>${rows}</ul>`;
+      sessionStorage.removeItem(key);
+    } catch (e) {
+      target.innerHTML = '';
+    }
+  }
+</script>
+{% endblock %}

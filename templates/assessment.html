@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Assessment{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Autism Screening Questionnaire</h3>
+  <span id="progressText" class="badge text-bg-primary">0%</span>
+</div>
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="row g-2">
+      <div class="col-md-6">
+        <label class="form-label">Clinic</label>
+        <select id="assessmentClinicId" class="form-select" required></select>
+      </div>
+      <div id="existingPatientGroup" class="col-md-6 d-none">
+        <label class="form-label">Patient</label>
+        <select id="assessmentPatientId" class="form-select" required></select>
+      </div>
+      <div id="publicAssessmentFields" class="row g-2 mt-1">
+        <div class="col-md-6">
+          <label class="form-label">Parent Name</label>
+          <input id="assessmentParentName" class="form-control" type="text" placeholder="Enter parent name">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Child Name</label>
+          <input id="assessmentChildName" class="form-control" type="text" placeholder="Enter child name">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Child Age</label>
+          <input id="assessmentChildAge" class="form-control" type="number" min="1" max="18" placeholder="Age">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Email</label>
+          <input id="assessmentEmail" class="form-control" type="email" placeholder="Enter email">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Phone</label>
+          <input id="assessmentPhone" class="form-control" type="text" placeholder="Enter phone">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="progress mb-3" style="height: 10px;">
+  <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%;"></div>
+</div>
+<form id="assessmentForm"></form>
+<div id="sectionSummary" class="card mb-2 d-none">
+  <div class="card-body">
+    <h6 class="mb-2">Section Scores</h6>
+    <div id="sectionSummaryBody"></div>
+  </div>
+</div>
+<div class="mt-3 d-flex gap-2">
+  <button id="submitAssessment" class="btn btn-primary" type="button">Submit Assessment</button>
+</div>
+<small id="assessmentMessage" class="text-muted d-block mt-2"></small>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/assessment.js"></script>
+{% endblock %}

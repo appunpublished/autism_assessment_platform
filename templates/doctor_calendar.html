@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Doctor Calendar{% endblock %}
+{% block content %}
+<h3>Doctor Appointment Calendar</h3>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <button id="prevMonth" class="btn btn-outline-secondary btn-sm">Previous</button>
+  <h5 id="calendarTitle" class="mb-0"></h5>
+  <button id="nextMonth" class="btn btn-outline-secondary btn-sm">Next</button>
+</div>
+<div id="calendarGrid" class="row row-cols-7 g-2 mb-4"></div>
+
+<div class="card">
+  <div class="card-body">
+    <h5 id="selectedDateTitle">Select a day</h5>
+    <div id="daySlots"></div>
+  </div>
+</div>
+
+<small class="text-muted d-block mt-2">
+  Legend: <span class="badge bg-danger">Booked Day</span>
+  <span class="badge bg-success">Free Day</span>
+  <span class="badge bg-secondary">Leave / Out of Office</span>
+</small>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/doctor_calendar.js"></script>
+{% endblock %}

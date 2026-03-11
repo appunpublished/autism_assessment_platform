@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h3>Clinic Admin Dashboard</h3>
+<div class="row g-3">
+  <div class="col-md-4"><div class="card"><div class="card-body"><h6>Total Assessments</h6><h3>{{ total_assessments }}</h3></div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><h6>High Risk Cases</h6><h3>{{ high_risk_cases }}</h3></div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><h6>Appointments Today</h6><h3>{{ appointments_today }}</h3></div></div></div>
+</div>
+<div class="mt-4 d-flex gap-2">
+  <a class="btn btn-outline-primary" href="/admin/doctors">Manage Doctors</a>
+  <a class="btn btn-outline-primary" href="/admin/patients">Manage Patients</a>
+  <a class="btn btn-outline-primary" href="/admin/appointments">Manage Appointments</a>
+</div>
+{% endblock %}

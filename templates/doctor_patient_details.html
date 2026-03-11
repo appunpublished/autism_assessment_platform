@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Patient Details{% endblock %}
+{% block content %}
+<h3>Patient Details</h3>
+<div class="card mb-3"><div class="card-body">
+  <p><strong>Child:</strong> {{ patient.child_name }}</p>
+  <p><strong>Parent:</strong> {{ patient.parent_name }}</p>
+  <p><strong>Age:</strong> {{ patient.child_age }}</p>
+</div></div>
+<h5>Assessment History</h5>
+<table class="table table-sm table-striped">
+  <thead><tr><th>Date</th><th>Score</th><th>Risk</th></tr></thead>
+  <tbody>
+    {% for assessment in assessments %}
+      <tr><td>{{ assessment.created_at }}</td><td>{{ assessment.score }}</td><td>{{ assessment.risk_level }}</td></tr>
+    {% else %}
+      <tr><td colspan="3">No assessments yet</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

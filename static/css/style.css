@@ -1,0 +1,9 @@
+body {
+  background: #f7f9fb;
+}
+
+.card {
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(17, 24, 39, 0.05);
+}
